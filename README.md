@@ -29,7 +29,7 @@ mkdir yeelight
 cd yeelight
 npm init -y
 npm i yeelight-ts
-npm i -D nodemon
+npm i -g nodemon
 touch index.ts
 ```
 
@@ -41,15 +41,18 @@ import Yeelight from "yeelight-ts";
 
 ### index.ts file
 
+create an index.ts file with the following code:
+
 ```typescript
-import Yeelight from "yeelight-ts";
+import { Yeelight } from "yeelight-ts";
 
 const yeelight = new Yeelight();
-const IP = "192.168.1.166"; // Change this to your Yeelight's IP address
+const IP = "192.168.x.x"; // Change this to your Yeelight's IP address
 
-yeelight.setBrightness(IP, 50) // value between 1-100
+yeelight.setBrightness(IP, 1) // value between 1-100
 // yeelight.setPower(IP, 'on') // values 'on' or 'off'
 // yeelight.setPower(IP, 'off')
+
 ```
 
 ### run
