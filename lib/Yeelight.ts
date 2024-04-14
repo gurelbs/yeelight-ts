@@ -24,9 +24,9 @@ interface CommandResult {
 
 /**
  * Represents a Yeelight device.
- */
-class Yeelight {
-    private client: Socket;
+*/
+export default class Yeelight {
+private client: Socket;
     private readonly MULTICAST_ADDR: string = '239.255.255.250';
     private readonly SSDP_PORT: number = 1982;
     private readonly CONTROL_PORT: number = 55443;
@@ -123,7 +123,17 @@ class Yeelight {
         return this.sendCommand(ip, 'set_power', [powerState, effect, duration]);
     }
 
+
+    private isInRange(value: number): value is number {
+        return value >= 1 && value <= 100;
+    }
+    
     public setBrightness(ip: string, brightness: number): Promise<CommandResult> {
+        if (this.isInRange(brightness)) {
+            console.log(`${brightness} is in range.`);
+        } else {
+            console.log(`${brightness} is not in range. try a value between 1 and 100.`); 
+        }
         return this.sendCommand(ip, 'set_bright', [brightness, 'smooth', 500]);
     }
 
@@ -143,5 +153,3 @@ class Yeelight {
         return this.sendCommand(ip, 'set_name', [name]);
     }
 }
-
-export default Yeelight;

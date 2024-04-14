@@ -15,66 +15,29 @@ This package provides a robust TypeScript library for controlling Yeelight smart
 Install the package via npm:
 
 ```bash
-npm install yeelight-typescript-wrapper
+npm install yeelight-ts
 ```
 
 ## Usage
 
 Here’s how to get started with the Yeelight TypeScript API Wrapper:
 
-### Discovering Devices
+### Set Brightness
+
+enter a value between 1 and 100
 
 ```typescript
-import Yeelight from 'yeelight-typescript-wrapper';
+import Yeelight from "yeelight-ts";
 
-const light = new Yeelight();
+const yeelight = new Yeelight();
+const IP = "192.168.1.166"; // Change this to your Yeelight's IP address
 
-light.on('listening', () => {
-    light.discoverDevices();
-});
+yeelight.setBrightness(IP, 50)
 
-light.on('deviceDiscovered', (deviceInfo) => {
-    console.log('Discovered Device:', deviceInfo);
-    // Example of turning on a light if the IP is known:
-    const ip = deviceInfo.location.split('//')[1].split(':')[0];
-    light.sendCommand(ip, 'set_power', ['on', 'smooth', 500], (response) => {
-        console.log('Light turned on:', response);
-    });
-});
+// expected log: 
 ```
 
-### Handling Errors
+### Turn On / Off
 
-```typescript
-light.on('error', (error) => {
-    console.error('Error:', error);
-});
-```
-
-## API Reference
-
-- `discoverDevices()`: Broadcasts a search on the local network to find Yeelight devices.
-- `sendCommand(ip: string, method: string, params: Array<string | number>, callback: (response: any) => void)`: Sends a command to a specific Yeelight device.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your enhancements. Please adhere to the existing coding style and add unit tests for any new or changed functionality.
-
-## Support
-
-If you encounter any issues or require assistance, please file an issue on the GitHub project page.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-### Customization and Further Development
-
-- **Modify the Installation Section**: If your package name or installation commands differ, update accordingly.
-- **Enhance Usage Examples**: Add more examples to cover all functionalities provided by your API.
-- **Expand API Reference**: Provide detailed documentation for each function, including parameters, expected results, and possible errors.
-- **Setup Guidelines**: If there are prerequisites or configuration steps needed before using the API, document these steps.
-
-This `README.md` is structured to provide users with quick start information, detailed usage examples, and links to further help or contribute to the project. Make sure all instructions are clear and that links to your repository are correct before publishing.
+// yeelight.setPower(IP, 'on')
+// yeelight.setPower(IP, 'off')

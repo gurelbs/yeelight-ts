@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gurelbsk/yeelight-ts.git"
+    "url": "git+https://github.com/gurelbs/yeelight-ts.git"
   },
   "keywords": [
     "yeelight",
