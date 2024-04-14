@@ -1,11 +1,11 @@
 {
   "name": "yeelight-ts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A TypeScript library for controlling Yeelight smart devices over your local network.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "tsc": "tsc"
+    "build": "rm -Rf dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,6 @@
   ],
   "author": "Gurel Ben Shabat",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yourusername/yeelight-typescript-wrapper/issues"
-  },
   "homepage": "https://github.com/gurelbs/yeelight-ts#readme",
   "devDependencies": {
     "@types/node": "^20.12.7",
