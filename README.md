@@ -39,5 +39,7 @@ yeelight.setBrightness(IP, 50)
 
 ### Turn On / Off
 
+enter 'on' or 'off'.
+
 // yeelight.setPower(IP, 'on')
 // yeelight.setPower(IP, 'off')

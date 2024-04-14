@@ -25,7 +25,7 @@ interface CommandResult {
 /**
  * Represents a Yeelight device.
 */
-export default class Yeelight {
+export class Yeelight {
 private client: Socket;
     private readonly MULTICAST_ADDR: string = '239.255.255.250';
     private readonly SSDP_PORT: number = 1982;
