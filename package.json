@@ -1,0 +1,41 @@
+{
+  "name": "yeelight-ts",
+  "version": "0.0.1",
+  "description": "A TypeScript library for controlling Yeelight smart devices over your local network.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gurelbsk/yeelight-ts.git"
+  },
+  "keywords": [
+    "yeelight",
+    "smart-home",
+    "home-automation",
+    "lighting",
+    "smart-lighting",
+    "typescript",
+    "nodejs",
+    "yeelight-control",
+    "ssdp",
+    "iot",
+    "internet-of-things",
+    "smart-bulbs",
+    "yeelight-sdk",
+    "led-control",
+    "typescript-api"
+  ],
+  "author": "Gurel Ben Shabat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yourusername/yeelight-typescript-wrapper/issues"
+  },
+  "homepage": "https://github.com/gurelbs/yeelight-ts#readme",
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}
