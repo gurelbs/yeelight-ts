@@ -22,9 +22,24 @@ npm install yeelight-ts
 
 Here’s how to get started with the Yeelight TypeScript API Wrapper:
 
-### Set Brightness
+## setup
 
-enter a value between 1 and 100
+```bash
+mkdir yeelight
+cd yeelight
+npm init -y
+npm i yeelight-ts
+npm i -D nodemon
+touch index.ts
+```
+
+### import
+
+```typescript
+import Yeelight from "yeelight-ts";
+```
+
+### index.ts file
 
 ```typescript
 import Yeelight from "yeelight-ts";
@@ -32,14 +47,13 @@ import Yeelight from "yeelight-ts";
 const yeelight = new Yeelight();
 const IP = "192.168.1.166"; // Change this to your Yeelight's IP address
 
-yeelight.setBrightness(IP, 50)
-
-// expected log: 
+yeelight.setBrightness(IP, 50) // value between 1-100
+// yeelight.setPower(IP, 'on') // values 'on' or 'off'
+// yeelight.setPower(IP, 'off')
 ```
 
-### Turn On / Off
+### run
 
-enter 'on' or 'off'.
-
-// yeelight.setPower(IP, 'on')
-// yeelight.setPower(IP, 'off')
+```bash
+nodemon index.ts
+```
