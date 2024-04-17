@@ -25,17 +25,27 @@ interface CommandResult {
 /**
  * Represents a Yeelight device.
 */
+/**
+ * Represents a Yeelight device.
+ */
 export class Yeelight {
-private client: Socket;
+    private client: Socket;
     private readonly MULTICAST_ADDR: string = '239.255.255.250';
     private readonly SSDP_PORT: number = 1982;
     private readonly CONTROL_PORT: number = 55443;
 
+    /**
+     * Creates a new instance of the Yeelight class.
+     */
     constructor() {
         this.client = dgram.createSocket('udp4');
         this.initialize();
     }
 
+    /**
+     * Initializes the Yeelight client.
+     * Binds the client to the SSDP_PORT and sets up event listeners.
+     */
     private initialize(): void {
         this.client.on('error', (err) => {
             console.error('Client error:', err);
@@ -53,6 +63,9 @@ private client: Socket;
         this.client.bind(this.SSDP_PORT);
     }
 
+    /**
+     * Sends a discovery message to discover Yeelight devices on the network.
+     */
     public sendDiscovery(): void {
         const message = Buffer.from(
             `M-SEARCH * HTTP/1.1\r\n` +
@@ -72,6 +85,10 @@ private client: Socket;
         });
     }
 
+    /**
+     * Handles the discovery response from a Yeelight device.
+     * @param callback - The callback function to handle the device information.
+     */
     public handleDiscoveryResponse(callback: (info: DeviceInfo) => void): void {
         this.client.on('message', (msg, rinfo) => {
             console.log(`Received message from ${rinfo.address}:${rinfo.port}`);
@@ -81,6 +98,11 @@ private client: Socket;
         });
     }
 
+    /**
+     * Parses the discovery response from a Yeelight device.
+     * @param response - The discovery response string.
+     * @returns The parsed device information.
+     */
     private parseDiscoveryResponse(response: string): DeviceInfo {
         const lines = response.split('\r\n');
         const result: DeviceInfo = {};
@@ -93,6 +115,13 @@ private client: Socket;
         return result;
     }
 
+    /**
+     * Sends a command to control a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param method - The method to execute.
+     * @param params - The parameters for the method.
+     * @returns A promise that resolves to the command result.
+     */
     public sendCommand(ip: string, method: string, params: Array<string | number>): Promise<CommandResult> {
         return new Promise((resolve, reject) => {
             const socket = net.createConnection(this.CONTROL_PORT, ip, () => {
@@ -119,15 +148,24 @@ private client: Socket;
         });
     }
 
+    /**
+     * Sets the power state of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param powerState - The power state to set.
+     * @param effect - The effect to apply (default: "smooth").
+     * @param duration - The duration of the effect in milliseconds (default: 500).
+     * @returns A promise that resolves to the command result.
+     */
     public setPower(ip: string, powerState: string, effect: string = "smooth", duration: number = 500): Promise<CommandResult> {
         return this.sendCommand(ip, 'set_power', [powerState, effect, duration]);
     }
 
-
-    private isInRange(value: number): value is number {
-        return value >= 1 && value <= 100;
-    }
-    
+    /**
+     * Sets the brightness of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param brightness - The brightness value (1-100).
+     * @returns A promise that resolves to the command result.
+     */
     public setBrightness(ip: string, brightness: number): Promise<CommandResult> {
         if (this.isInRange(brightness)) {
             console.log(`${brightness} is in range.`);
@@ -137,19 +175,53 @@ private client: Socket;
         return this.sendCommand(ip, 'set_bright', [brightness, 'smooth', 500]);
     }
 
+    /**
+     * Sets the color temperature of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param temperature - The color temperature value.
+     * @returns A promise that resolves to the command result.
+     */
     public setColorTemperature(ip: string, temperature: number): Promise<CommandResult> {
         return this.sendCommand(ip, 'set_ct_abx', [temperature, 'smooth', 500]);
     }
 
+    /**
+     * Sets the RGB color of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param rgb - The RGB color value.
+     * @returns A promise that resolves to the command result.
+     */
     public setRGB(ip: string, rgb: number): Promise<CommandResult> {
         return this.sendCommand(ip, 'set_rgb', [rgb, 'smooth', 500]);
     }
 
+    /**
+     * Sets the HSV color of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param hue - The hue value.
+     * @param sat - The saturation value.
+     * @returns A promise that resolves to the command result.
+     */
     public setHSV(ip: string, hue: number, sat: number): Promise<CommandResult> {
         return this.sendCommand(ip, 'set_hsv', [hue, sat, 'smooth', 500]);
     }
 
+    /**
+     * Sets the name of a Yeelight device.
+     * @param ip - The IP address of the device.
+     * @param name - The name to set.
+     * @returns A promise that resolves to the command result.
+     */
     public setName(ip: string, name: string): Promise<CommandResult> {
         return this.sendCommand(ip, 'set_name', [name]);
+    }
+
+    /**
+     * Checks if a value is within the valid range (1-100).
+     * @param value - The value to check.
+     * @returns True if the value is within the range, false otherwise.
+     */
+    private isInRange(value: number): value is number {
+        return value >= 1 && value <= 100;
     }
 }
